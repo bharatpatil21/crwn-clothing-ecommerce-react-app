@@ -20,16 +20,19 @@ class App extends Component {
   unSubcribeFromAuth = null;
 
   componentDidMount() {
-    this.unSubcribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if(userAuth) {
+    this.unSubcribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+      if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
-        userRef.onSnapshot(snapShot => {
-          this.setState({ currentUser: {
-            id: snapShot.id,
-            ...snapShot.data()
-          } })
-        })
+        userRef.onSnapshot((snapShot) => {
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data(),
+            }
+          });
+        });
       }
+      this.setState({ currentUser: userAuth });
     });
   }
 
